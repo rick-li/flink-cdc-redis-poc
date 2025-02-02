@@ -13,6 +13,7 @@ public class PostgresCdcJob {
         env.getConfig().enableObjectReuse();
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
+        //slot per table mode
         // Add sources to the environment and create temporary tables
         tableEnv.executeSql(
             "CREATE TEMPORARY TABLE website_event (" +
@@ -23,6 +24,8 @@ public class PostgresCdcJob {
             "  event_value STRING," +
             "  created_at TIMESTAMP(3)," +
             "  PRIMARY KEY (event_id) NOT ENFORCED" +
+            
+            // PostgresCDCConfig.getWithClause("website_event")
             ") WITH (" +
             "  'connector' = 'postgres-cdc'," +
             "  'hostname' = '192.168.1.173'," +
